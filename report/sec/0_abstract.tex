@@ -1,0 +1,7 @@
+\begin{abstract}
+This report presents the full Part~1 implementation for music genre classification on GTZAN, following the coursework requirement to compare six neural models: Net1 (fully connected baseline), Net2 (CNN), Net3 (CNN+BatchNorm), Net4 (CNN+BatchNorm+RMSProp), Net5 (LSTM), and Net6 (LSTM with GAN-augmented training data). The workflow uses a shared stratified split (70\% train, 20\% validation, 10\% test), with spectrogram images resized to $180\times180$ and audio represented as fixed-length MFCC(+delta) sequences.
+
+Evaluation is performed on the same held-out test set for all models with accuracy, macro precision/recall/F1, and confusion-matrix analysis. The strongest model is Net6 at 71.0\% test accuracy (macro-F1 0.7045), followed closely by Net3 at 70.0\%. The baseline progression confirms clear gains from architectural choices: Net1$\rightarrow$Net2 improves by +8.0 percentage points, and Net2$\rightarrow$Net3 by +9.0 points. Net4 (67.0\%) shows that optimizer choice can materially affect convergence quality under the same architecture, while Net5$\rightarrow$Net6 (+2.0 points) indicates a modest benefit from GAN-based augmentation.
+
+Overall, the results show that both image-based and audio-sequence pipelines are competitive, with the final ranking led by audio models in this run. The report details implementation decisions, quantitative comparison, per-genre behavior, and practical trade-offs relevant to model selection.
+\end{abstract}

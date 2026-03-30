@@ -1,0 +1,16 @@
+\section{Introduction}
+\label{sec:intro}
+
+This report presents Task~5.1 for music genre classification on GTZAN~\cite{tzanetakis2002gtzan}. The goal is to compare six required models under one common test split and explain the journey in simple steps: what I tried, what I got, and what I learned.
+
+I implemented six models in PyTorch~\cite{paszke2019pytorch}: Net1 (FC), Net2 (CNN), Net3 (CNN+BatchNorm~\cite{ioffe2015batchnorm}), Net4 (CNN+BatchNorm+RMSProp), Net5 (BiLSTM~\cite{hochreiter1997lstm}), and Net6 (BiLSTM with GAN-augmented training data~\cite{goodfellow2014gan}).
+
+The report focuses on three practical comparisons: (1) image models (Net1--Net4), (2) audio models (Net5--Net6), and (3) all six models together. I also include a student learning curve to show how performance changed as I improved the pipeline step by step.
+
+\subsection{Main Outcome}
+
+The best model is Net6 with 71.0\% test accuracy and 0.7045 macro-F1. The strongest image model is Net3 with 70.0\% accuracy. These results show that both image and audio pipelines are competitive, with a small final advantage for the audio-based setup in this run.
+
+\subsection{Report Flow}
+
+\Cref{sec:implementation} explains dataset setup, preprocessing, and architectures with in-place figures. \Cref{sec:results} is written in a simple tried $\rightarrow$ got $\rightarrow$ learned structure, with compact comparison graphs of the 4 image models, the 2 audio models, and all 6 models.

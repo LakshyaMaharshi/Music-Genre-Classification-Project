@@ -1,0 +1,49 @@
+\section{Part II: Topic Reflection}
+\label{sec:reflection}
+
+\textbf{Selected topic:} \emph{Deep learning for financial time-series forecasting}, with emphasis on diffusion-based generative models.
+
+Financial forecasting is important because prediction quality affects capital allocation, risk control, and market stability. In practice, institutions need more than a single point estimate; they also need uncertainty-aware predictions to support robust decisions during volatile periods.
+
+Current technologies can be grouped into three layers. First, statistical models such as ARIMA, GARCH, and Kalman filtering provide strong interpretability but often struggle with highly nonlinear behavior. Second, discriminative deep models (LSTM, TCN, Transformer) capture long-range temporal dependencies better than many classical approaches~\cite{hochreiter1997lstm}. Third, generative deep models (GANs and diffusion-style models) learn distributions of future trajectories, which is valuable for scenario analysis and risk assessment~\cite{goodfellow2014gan}.
+
+A standard preprocessing step is feature normalization:
+\[
+x_t^{\mathrm{std}} = \frac{x_t - \mu_t}{\sigma_t}.
+\]
+For diffusion forecasting, the forward noising process and conditional reverse process are:
+\[
+q(x_t\mid x_{t-1}) = \mathcal{N}(\sqrt{1-\beta_t}\,x_{t-1},\,\beta_t I),
+\]
+\[
+p_{\theta}(x_{t-1}\mid x_t, c) = \mathcal{N}(\mu_{\theta}(x_t,t,c),\,\sigma_t^2 I),
+\]
+where $c$ is historical conditional information. A common objective is noise prediction:
+\[
+\mathcal{L}_{\mathrm{diff}} = \mathbb{E}_{x_0,t,\epsilon}\left[\left\lVert \epsilon - \epsilon_{\theta}(x_t,t,c) \right\rVert_2^2\right],
+\quad
+x_t = \sqrt{\bar{\alpha}_t}\,x_0 + \sqrt{1-\bar{\alpha}_t}\,\epsilon.
+\]
+
+To evaluate forecasting quality, I focus on both absolute and relative errors:
+\[
+\mathrm{MSE} = \frac{1}{N}\sum_{i=1}^{N}(y_i-\hat{y}_i)^2,
+\quad
+\mathrm{MAE} = \frac{1}{N}\sum_{i=1}^{N}|y_i-\hat{y}_i|,
+\]
+\[
+\mathrm{SMAPE} = \frac{100\%}{N}\sum_{i=1}^{N}\frac{|y_i-\hat{y}_i|}{(|y_i|+|\hat{y}_i|)/2}.
+\]
+
+From this coursework, I can already implement full deep-learning workflows: preprocessing, train/validation/test splitting, CNN/LSTM training, and rigorous metric-based comparison. I can also present model behavior through convergence plots and error analysis.
+
+However, I cannot yet implement a production-grade financial diffusion system with reliable uncertainty calibration and robust trading backtests. The main technical barriers are preventing temporal leakage, tuning diffusion schedules efficiently, handling regime shifts, and aligning ML metrics with economic utility under transaction costs.
+
+The positive impact of current deep learning technology is better nonlinear modelling, stronger scenario generation, and potentially improved risk-aware planning. The negative impact includes limited interpretability, overfitting risk under non-stationarity, high computational cost, and possible misuse in highly leveraged or opaque decision pipelines.
+
+My future vision is to build hybrid and responsible systems that combine sequence encoders with conditional diffusion scenario generators, then optimize decisions under explicit risk constraints. Beyond prediction error, I would track decision quality using risk-adjusted metrics such as:
+\[
+\mathrm{Sharpe} = \frac{\mathbb{E}[R]-R_f}{\sigma(R)}.
+\]
+This aligns evaluation with risk-aware decision making in quantitative finance.
+The long-term goal is not only accurate forecasting, but trustworthy, interpretable, and risk-aware AI for finance.
